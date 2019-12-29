@@ -1,1 +1,3 @@
-README.md
+
+# Serverless local
+sls offline --printOutput
