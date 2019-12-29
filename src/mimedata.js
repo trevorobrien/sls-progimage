@@ -5,6 +5,12 @@ const fileType = require('file-type')
  * @returns {Promise}
  */
  exports.mimeData = (data) => {
-  return fileType(data)
+
+  const mimeinfo = fileType(data)
+  
+  if(!mimeinfo) {
+    return null
+  } 
+  return mimeinfo
 }
 
