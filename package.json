@@ -7,5 +7,21 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.594.0",
+    "mime": "^2.4.4",
+    "mime-types": "^2.1.25",
+    "sharp": "^0.23.4",
+    "uuid": "^3.3.3"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "lambda-tester": "^4.0.1",
+    "mocha": "^6.2.2",
+    "serverless-apigw-binary": "^0.4.4",
+    "serverless-apigwy-binary": "^1.0.0",
+    "serverless-mocha-plugin": "^1.11.0",
+    "serverless-offline": "^5.12.1"
+  }
 }
