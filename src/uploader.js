@@ -5,12 +5,9 @@ const { jsonResponse, imgResponse } = require('./utils')
 
 const mimeType = require('./mimedata')
 
-exports.handler = (event, context, callback) => {
+exports.handler = async (event, context) => {
   if (!event.body) {
-    callback(null, {
-      statusCode: 400,
-      body: 'A JSON object with a base64 image is required in the request body to use this service.'
-    })
+    return (jsonResponse(400, { message: 'A JSON object with a base64 image is required in the request body to use this service.' }))
   } else {
 
     try {
@@ -22,33 +19,26 @@ exports.handler = (event, context, callback) => {
         const objectId = uuid()
         const objectKey = `${objectId}.${mimeInfo.ext}`
 
-        s3Client.uploadToS3(data, objectKey, mimeInfo.mime)
+        const s3Response = await s3Client.uploadFile(data, objectKey, mimeInfo.mime)
+        // console.log('TEST', s3Response)
 
-        callback(null, {
-          statusCode: 200,
-          body: JSON.stringify(objectKey)
-        })
+        if (s3Response == 'error') {
+          return (jsonResponse(400, { message: 'An error during file upload occured' }))
+        } else {
+          return (jsonResponse(200, { message: JSON.stringify(objectKey) }))
+        }
       } else {
         // probably malformed payload
-        callback(null, {
-          statusCode: 400,
-          body: 'File mimeType not recognized'
-        })
+        return (jsonResponse(400, { message: 'File mimeType not recognized' }))
       }
-    } catch(e) {
+    } catch (e) {
       if (e.name == 'SyntaxError') {
-        callback(null, {
-          statusCode: 400,
-          body: 'A valid JSON object is required.'
-        })
+        return (jsonResponse(400, { message: 'A valid JSON object is required.' }))
       } else {
-        callback(null, {
-          statusCode: 400,
-          body: 'An unknown error has occured.'
-        })
-
+        console.log('req', e)
+        return (jsonResponse(400, { message: 'An unknown error has occured.' }))
       }
-        console.log('req', e.name)
+      console.log('req', e)
     }
   }
 }

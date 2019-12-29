@@ -16,7 +16,6 @@ describe('mimeData function', () => {
   })
   it('should return null when no valid mimetype info', () => {
     const response = mimeData.mimeData(Buffer.from(badImage.image, 'base64'))
-    console.log('response', response)
     expect(response).to.eql(null)
   })
 })
