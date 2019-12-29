@@ -114,7 +114,14 @@ functions:
 #     NewOutput:
 #       Description: "Description for the output"
 #       Value: "Some output value"
+resources:
+  Resources:
+    StorageBucket:
+      Type: "AWS::S3::Bucket"
+      Properties:
+        BucketName: ${self:custom.bucket}
 custom:
-  bucket: progimage
+  bucket: sls-to-progimage
 plugins:
   - serverless-offline
+  - serverless-mocha-plugin
