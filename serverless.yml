@@ -9,7 +9,7 @@ org: trevorobrien
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   region: eu-west-1
   stackName: sls-progimage
   environment:
@@ -63,6 +63,12 @@ functions:
           path: upload
           method: post
           cors: true
+  retrieve:
+    handler: src/retrieve.handler
+    events:
+      - http:
+          path: retrieve
+          method: get
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
 #    Check the event documentation for details
@@ -122,6 +128,9 @@ resources:
         BucketName: ${self:custom.bucket}
 custom:
   bucket: sls-to-progimage
+  scriptHooks:
+    before:package:createDeploymentArtifacts: npm run buildsls
 plugins:
   - serverless-offline
   - serverless-mocha-plugin
+  - serverless-scriptable-plugin
