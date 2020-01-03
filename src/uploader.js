@@ -22,7 +22,7 @@ exports.handler = async (event, context) => {
         const s3Response = await s3Client.uploadFile(data, objectKey, mimeInfo.mime)
         // console.log('TEST', s3Response)
 
-        if (s3Response == 'error') {
+        if (s3Response.statusCode === 400) {
           return (jsonResponse(400, { message: 'An error during file upload occured' }))
         } else {
           return (jsonResponse(200, { message: JSON.stringify(objectKey) }))

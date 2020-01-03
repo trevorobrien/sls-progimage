@@ -1,6 +1,6 @@
 service: sls-progimage
 # app and org for use with dashboard.serverless.com
-app: progimage
+app: sls-progimage
 org: trevorobrien
 
 # You can pin your service to only deploy with a specific Serverless version
@@ -14,6 +14,10 @@ provider:
   stackName: sls-progimage
   environment:
     bucketName: ${self:custom.bucket}
+    INVOKE_ENDPOINT: 'http://localhost:3000'
+    INVOKE_BLUR: 'sls-progimage-dev-blur'
+    INVOKE_FUNCTION51: '${self:service}-${self:provider.stage}-blur'
+    TEST: "arn:aws:lambda:eu-west-1:570233320556:function:sls-progimage-dev-blur"
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -21,7 +25,25 @@ provider:
         - s3:GetObject
       Resource:
         - "arn:aws:s3:::${self:custom.bucket}/*"
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+        - lambda:InvokeAsync
+      Resource:
+        - "arn:aws:lambda:*:*:*"
+        - "arn:aws:lambda:${self:provider.region}:*:function:blur"
+        - "arn:aws:lambda:${self:provider.region}:*:function:retrieve"
+    - Effect: Allow
+      Action:
+        - "logs:CreateLogGroup"
+        - "logs:CreateLogStream"
+        - "logs:PutLogEvents"
+        - "logs:DescribeLogStreams"
+      Resource:
+        - "arn:aws:logs:*"
 
+package:
+  individually: true
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -58,6 +80,7 @@ provider:
 functions:
   uploader:
     handler: src/uploader.handler
+    memorySize: 3008
     events:
       - http:
           path: upload
@@ -65,9 +88,18 @@ functions:
           cors: true
   retrieve:
     handler: src/retrieve.handler
+    memorySize: 3008
     events:
       - http:
           path: retrieve
+          method: get
+          contentHandling: CONVERT_TO_BINARY
+  blur:
+    handler: src/blur.handler
+    memorySize: 3008
+    events:
+      - http:
+          path: blur
           method: get
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -130,7 +162,12 @@ custom:
   bucket: sls-to-progimage
   scriptHooks:
     before:package:createDeploymentArtifacts: npm run buildsls
+  apigwBinary:
+      types:           #list of mime-types
+        - 'image/jpeg'
+        - 'image/png'
 plugins:
   - serverless-offline
   - serverless-mocha-plugin
   - serverless-scriptable-plugin
+  - serverless-apigw-binary

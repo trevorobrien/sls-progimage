@@ -15,7 +15,10 @@ const imageResponse = (statusCode, body, type) => {
   }
 }
 
+const supportedInputMime = ['jpeg', 'png', 'tiff', 'webp']
+
 module.exports = {
   jsonResponse,
   imageResponse,
+  supportedInputMime
 }

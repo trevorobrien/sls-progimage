@@ -24,6 +24,7 @@
     "mocha": "^6.2.2",
     "serverless-apigw-binary": "^0.4.4",
     "serverless-apigwy-binary": "^1.0.0",
+    "serverless-bundle": "^1.2.5",
     "serverless-mocha-plugin": "^1.11.0",
     "serverless-offline": "^5.12.1",
     "serverless-scriptable-plugin": "^1.0.5"
