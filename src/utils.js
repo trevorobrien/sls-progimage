@@ -1,3 +1,5 @@
+const path = require('path')
+
 const jsonResponse = (statusCode, body) => {
   return {
     statusCode,
@@ -15,10 +17,16 @@ const imageResponse = (statusCode, body, type) => {
   }
 }
 
+const getExtension = (filename) => {
+  const ext = path.extname(filename||'').split('.');
+  return ext[ext.length - 1];
+}
+
 const supportedInputMime = ['jpeg', 'png', 'tiff', 'webp']
 
 module.exports = {
   jsonResponse,
   imageResponse,
+  getExtension,
   supportedInputMime
 }

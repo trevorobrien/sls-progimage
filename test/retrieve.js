@@ -5,7 +5,7 @@
 
 const mochaPlugin = require('serverless-mocha-plugin');
 const expect = mochaPlugin.chai.expect;
-let wrapped = mochaPlugin.getWrapper('retrieve', '/src/retrieve.js', 'handler');
+let wrapped = mochaPlugin.getWrapper('retrieve', '/src/handlers/retriever.js', 'handler');
 
 describe('retrieve', () => {
   before((done) => {

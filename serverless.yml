@@ -15,9 +15,7 @@ provider:
   environment:
     bucketName: ${self:custom.bucket}
     INVOKE_ENDPOINT: 'http://localhost:3000'
-    INVOKE_BLUR: 'sls-progimage-dev-blur'
-    INVOKE_FUNCTION51: '${self:service}-${self:provider.stage}-blur'
-    TEST: "arn:aws:lambda:eu-west-1:570233320556:function:sls-progimage-dev-blur"
+    INVOKE_TRANSFORMER: 'sls-progimage-dev-transformer'
   iamRoleStatements:
     - Effect: Allow
       Action:
@@ -44,6 +42,12 @@ provider:
 
 package:
   individually: true
+  # exclude:
+  #   - node_modules/**
+  #   - '!node_modules/uuid/**'
+  #   - '!node_modules/babel-runtime/**'
+  #   - '!node_modules/sharp/**'
+  #   - '!node_modules/file-type/**'
 # you can overwrite defaults here
 #  stage: dev
 #  region: us-east-1
@@ -79,27 +83,27 @@ package:
 
 functions:
   uploader:
-    handler: src/uploader.handler
+    handler: src/handlers/uploader.handler
     memorySize: 3008
     events:
       - http:
           path: upload
           method: post
           cors: true
-  retrieve:
-    handler: src/retrieve.handler
+  retriever:
+    handler: src/handlers/retriever.handler
     memorySize: 3008
     events:
       - http:
-          path: retrieve
+          path: retriever
           method: get
           contentHandling: CONVERT_TO_BINARY
-  blur:
-    handler: src/blur.handler
+  transformer:
+    handler: src/handlers/transformer.handler
     memorySize: 3008
     events:
       - http:
-          path: blur
+          path: transformer
           method: get
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
@@ -166,8 +170,10 @@ custom:
       types:           #list of mime-types
         - 'image/jpeg'
         - 'image/png'
+        - 'image/*'
 plugins:
   - serverless-offline
   - serverless-mocha-plugin
   - serverless-scriptable-plugin
   - serverless-apigw-binary
+  # - serverless-plugin-optimize

@@ -5,7 +5,7 @@
 
 const mochaPlugin = require('serverless-mocha-plugin')
 const expect = mochaPlugin.chai.expect
-let wrapped = mochaPlugin.getWrapper('uploader', '/src/uploader.js', 'handler')
+let wrapped = mochaPlugin.getWrapper('uploader', '/src/handlers/uploader.js', 'handler')
 
 // Create default event
 let event = {
@@ -37,7 +37,7 @@ describe('uploader', () => {
     let _event = Object.assign({},event,{
       body: JSON.stringify(goodImage)
     })
-    const result = 'png'
+    const result = 'msg'
     return wrapped.run(_event).then((response) => {
       expect(response).to.not.be.empty
       expect(response.statusCode).to.equal(200)

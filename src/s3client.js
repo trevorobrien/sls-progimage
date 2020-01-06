@@ -16,10 +16,13 @@ const uploadFile = async (data, key, mime) => {
     Body: data,
     ContentType: mime
   }
-    const s3Response = await s3.putObject(params).promise()
-    return s3Response
+  const s3Response = await s3.putObject(params).promise()
+  return s3Response
 }
 
+/**
+ * @param {key} filename
+ */
 const getFile = async (key) => {
   const params = {
     Bucket: bucketName,
