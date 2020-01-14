@@ -18,6 +18,7 @@ let event = {
 
 const badImage = require('./data/badimage.json')
 const goodImage = require('./data/goodimage.json')
+const pdf = require('./data/pdf.json')
 
 describe('uploader', () => {
   before((done) => {
@@ -44,11 +45,22 @@ describe('uploader', () => {
       expect(response.body).to.contain(result)
     })
   })
+  it('it should fail upload when mimetype is not supported', () => {
+    let _event = Object.assign({},event,{
+      body: JSON.stringify(pdf)
+    })
+    const result = 'File mimeType not recognized'
+    return wrapped.run(_event).then((response) => {
+      expect(response).to.not.be.empty
+      expect(response.statusCode).to.equal(400)
+      expect(response.body).to.contain(result)
+    })
+  })
   it('it should fail when mimetype cant be extracted from body request', () => {
     let _event = Object.assign({},event,{
       body: JSON.stringify(badImage)
     })
-    const result = 'File mimeType not recognized'
+    const result = 'An issue with mimetype extraction.'
     return wrapped.run(_event).then((response) => {
       expect(response).to.not.be.empty
       expect(response.statusCode).to.equal(400)

@@ -18,15 +18,15 @@ const imageResponse = (statusCode, body, type) => {
 }
 
 const getExtension = (filename) => {
-  const ext = path.extname(filename||'').split('.');
+  const ext = path.extname(filename || '').split('.');
   return ext[ext.length - 1];
 }
 
-const supportedInputMime = ['jpeg', 'png', 'tiff', 'webp']
+const supportedMimeType = ['jpeg', 'png', 'tiff', 'webp']
 
 module.exports = {
   jsonResponse,
   imageResponse,
   getExtension,
-  supportedInputMime
+  supportedMimeType
 }

@@ -4,7 +4,7 @@
   "description": "Serverless Image Project",
   "main": "index.js",
   "scripts": {
-    "start": "sls offline --printOutput",
+    "start": "DEBUG=* sls offline --printOutput",
     "buildlocal": "rm -rf node_modules/sharp && npm install",
     "buildsls": "rm -rf node_modules/sharp && npm install --arch=x64 --platform=linux sharp",
     "test": "sls invoke test"
@@ -13,10 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "aws-sdk": "^2.594.0",
+    "debug": "^4.1.1",
     "file-type": "^12.4.2",
     "mime": "^2.4.4",
     "mime-types": "^2.1.25",
+    "nyc": "^15.0.0",
     "sharp": "^0.23.4",
+    "supports-color": "^7.1.0",
     "uuid": "^3.3.3"
   },
   "devDependencies": {

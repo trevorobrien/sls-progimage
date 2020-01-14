@@ -1,25 +1,30 @@
-const index = async (imageBuffer, queryParams) => {
+const debug = require('debug')('transform-handler')
+const sharp = require('sharp')
+const fileType = require('file-type')
+const { jsonResponse, imageResponse } = require('../../utils')
 
-  const sharp = require('sharp')
-  const fileType = require('file-type')
-  const { jsonResponse, imageResponse, supportedInputMime } = require('../../utils')
+const index = async (imageBuffer, queryParams) => {
+  debug('transforming these settings', queryParams)
+
+  // TODO dont really like how this works - look at moving to stream so I can do something like
+  // transform = transform.toFormat('png')
+  // inputstream.pipe(transform).toBuffer()
 
   const transforms = {
     options: {
-      blur: parseFloat(queryParams.blur || null),
-      width: parseFloat(queryParams.width || null),
-      height: parseFloat(queryParams.height || null),
-      rotateAngle: parseFloat(queryParams.rotateangle || null),
+      blur: parseFloat(queryParams.blur),
+      width: parseFloat(queryParams.width),
+      height: parseFloat(queryParams.height),
+      rotateAngle: parseFloat(queryParams.rotateangle),
     }
   }
-  console.log('PIPELINE', transforms.options)
+
   const data = await sharp(imageBuffer)
     .resize(transforms.options.width || null, transforms.options.height || null)
     .blur(transforms.options.blur || null)
     .rotate(transforms.options.rotateAngle || null)
     .toBuffer()
 
-  const result = new Buffer(data).toString('base64')
   return data.toString('base64')
 }
 
