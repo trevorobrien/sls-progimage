@@ -1,5 +1,10 @@
 # serverless-image-processor
 
+This is a demo[Serverless](https://serverless.com) project for image processing (width, height, blur, rotate) with lambda and sharp on AWS. It uses debug to trace out and show the flow the calls to the 3 lambda functions (uploader, retriever, transformer)
+
+Request flow is:  
+User -> API Gateway -> Lambda
+
 
 Caveats
 - payload limit of 6mb with Lambda functions
@@ -16,16 +21,11 @@ Things to do
 - add auth / lock down api gateway
 
 
-This is a [Serverless](https://serverless.com) project for image processing with lambda and sharp on aws. 
-
-Request flow is:  
-User -> API Gateway -> Lambda
-
 ## Demo
 https://b5u67w4qf1.execute-api.eu-west-1.amazonaws.com/dev/retriever?objectKey=ee1376b3-fb26-4862-a5ee-0718a27163e7.webp
 https://b5u67w4qf1.execute-api.eu-west-1.amazonaws.com/dev/retriever?objectKey=ee1376b3-fb26-4862-a5ee-0718a27163e7.webp&edit=true&height=300&rotateangle=90
 
-## Supported formats
+## Supported input/ output formats
 ['jpeg', 'png', 'tiff', 'webp']
 
 ## Query params
