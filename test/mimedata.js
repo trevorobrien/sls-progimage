@@ -1,6 +1,5 @@
-const assert  = require('assert')
-const expect = require('chai').expect
-const mimeData = require('../src/mimedata.js') 
+const { expect } = require('chai')
+const mimeData = require('../src/mimedata.js')
 
 const badImage = require('./data/badimage.json')
 const goodImage = require('./data/goodimage.json')

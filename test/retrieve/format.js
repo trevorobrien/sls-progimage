@@ -1,8 +1,6 @@
-const assert  = require('assert')
-const expect = require('chai').expect
-const format = require('../../src/handlers/retrieve/format.js') 
+const { expect } = require('chai')
+const format = require('../../src/handlers/retrieve/format.js')
 
-const badImage = require('../data/badimage.json')
 const goodImage = require('../data/goodimage.json')
 
 const image = Buffer.from(goodImage.image)
