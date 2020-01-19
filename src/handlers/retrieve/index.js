@@ -19,19 +19,21 @@ const index = async (queryParams) => {
     const filename = path.basename(objectKey, path.extname(objectKey))
 
     // get the file from s3
+    // image = buffer
     let { Body: image } = await s3Client.getFile(filename)
 
-    // if the edit param exists then do some image editing prior 1st
+    // if the edit param exists then do some image editing prior formatting
     if (queryParams.edit) {
       debug('image editing requested')
       const { edit } = queryParams
+      // imageTemp = base64
       const imageTemp = await edits.index(image, queryParams)
       image = Buffer.from(imageTemp, 'base64')
       debug('image editing done')
     }
 
     // get mimeinfo of orig image 
-    const mimeInfo = fileType(Buffer.from(image, 'base64'))
+    const mimeInfo = fileType(image)
     debug('mimetype of original image', mimeInfo)
     return result = format.index(image, mimeInfo, outputFormat)
 

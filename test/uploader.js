@@ -28,7 +28,6 @@ describe('uploader', () => {
   it('it should require an image supplied in the request body', () => {
     const result = 'A JSON object with a base64 image is required in the request body to use this service.'
     return wrapped.run({}).then((response) => {
-      // console.log('TESTOUPUT', response)
       expect(response).to.not.be.empty
       expect(response.statusCode).to.equal(400)
       expect(response.body).to.contain(result)

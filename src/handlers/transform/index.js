@@ -10,6 +10,8 @@ const index = async (imageBuffer, queryParams) => {
   // transform = transform.toFormat('png')
   // inputstream.pipe(transform).toBuffer()
 
+
+  // TODO constraint checking on things like size / blur level 
   const transforms = {
     options: {
       blur: parseFloat(queryParams.blur),

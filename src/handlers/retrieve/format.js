@@ -4,11 +4,12 @@ const sharp = require('sharp')
 const { jsonResponse, imageResponse, getExtension, supportedMimeType } = require('../../utils')
 
 // outputFormat = requested format 
-// mimeInfo = current format
+// mimeInfo = current mimeinfor
 // image = ....
 const index = async (image, mimeInfo, outputFormat) => {
   debug('formatting image for output')
   if (mimeInfo.ext === outputFormat || !outputFormat) {
+    debug(mimeInfo)
     // no conversion required so just return image
     debug('input/ output formats are the same')
     return (imageResponse(200, Buffer.from(image).toString('base64'), `${mimeInfo.ext}`))

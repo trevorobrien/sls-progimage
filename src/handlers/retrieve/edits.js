@@ -12,6 +12,7 @@ const index = async (image, params) => {
   const payload =
     JSON.stringify({
       msg: image.toString('base64'),
+      msg2: image,
       params: params
     })
 

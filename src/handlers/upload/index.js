@@ -24,7 +24,7 @@ const index = async (image) => {
         return (jsonResponse(200, { msg: objectKey }))
       }
     } else {
-      // mimetype isn't support but is a valid one
+      // mimetype isn't supported
       return (jsonResponse(400, { msg: 'File mimeType not recognized' }))
     }
   } catch (e) {

@@ -16,12 +16,12 @@ exports.handler = async (event, context) => {
       return result = await upload.index(image)
 
     } catch (e) {
-      console.log('error', e)
+      debug('error', e)
       if (e.name == 'SyntaxError') {
-        console.log('error', e)
+        debug('error', e)
         return (jsonResponse(400, { msg: 'A valid JSON object is required.' }))
       } else {
-        console.log('error', e)
+        debug('error', e)
         return (jsonResponse(400, { msg: 'An unknown error has occured.' }))
       }
     }

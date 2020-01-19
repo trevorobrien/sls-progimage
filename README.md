@@ -9,7 +9,8 @@ Caveats
 Things to do
 - explore using the signedURLs approach would work for uploading files
 - theres a better way to do the image transforms - look at the note in /transform
-- setup different environments 
+- also need to put constraint checking around things like blur etc
+- setup different environments
 - more test coverage required both unit & end to end
 - need to optmize packaging for serverless deployment
 - add auth / lock down api gateway
