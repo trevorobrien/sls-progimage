@@ -1,7 +1,5 @@
 const debug = require('debug')('transform-handler')
 const sharp = require('sharp')
-const fileType = require('file-type')
-const { jsonResponse, imageResponse } = require('../../utils')
 
 const index = async (imageBuffer, queryParams) => {
   debug('transforming these settings', queryParams)
@@ -11,14 +9,14 @@ const index = async (imageBuffer, queryParams) => {
   // inputstream.pipe(transform).toBuffer()
 
 
-  // TODO constraint checking on things like size / blur level 
+  // TODO constraint checking on things like size / blur level
   const transforms = {
     options: {
       blur: parseFloat(queryParams.blur),
       width: parseFloat(queryParams.width),
       height: parseFloat(queryParams.height),
       rotateAngle: parseFloat(queryParams.rotateangle),
-    }
+    },
   }
 
   const data = await sharp(imageBuffer)
@@ -31,5 +29,5 @@ const index = async (imageBuffer, queryParams) => {
 }
 
 module.exports = {
-  index
+  index,
 }

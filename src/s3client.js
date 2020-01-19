@@ -1,5 +1,6 @@
 const debug = require('debug')('s3client')
-const AWS = require("aws-sdk")
+const AWS = require('aws-sdk')
+
 const { bucketName } = process.env
 const s3 = new AWS.S3({})
 
@@ -9,7 +10,7 @@ const uploadFile = async (data, key, mime) => {
     Bucket: bucketName,
     Key: key,
     Body: data,
-    ContentType: mime
+    ContentType: mime,
   }
   const s3Response = await s3.putObject(params).promise()
   // debug('Response from s3 upload', s3Response)
@@ -20,7 +21,7 @@ const getFile = async (key) => {
   debug('getting file from s3')
   const params = {
     Bucket: bucketName,
-    Key: key
+    Key: key,
   }
   const s3Response = await s3.getObject(params).promise()
   // debug('Response from s3 upload', s3Response)
@@ -29,5 +30,5 @@ const getFile = async (key) => {
 
 module.exports = {
   uploadFile,
-  getFile
+  getFile,
 }

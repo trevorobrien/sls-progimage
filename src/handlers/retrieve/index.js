@@ -1,15 +1,12 @@
 const debug = require('debug')('retrieve-handler')
-const sharp = require('sharp')
 const fileType = require('file-type')
 const path = require('path')
 const s3Client = require('../../s3client')
 const format = require('./format')
 const edits = require('./edits')
-const { jsonResponse, imageResponse, getExtension, supportedMimeType } = require('../../utils')
-const { bucketName } = process.env
+const { jsonResponse, getExtension } = require('../../utils')
 
 const index = async (queryParams) => {
-
   try {
     const { objectKey } = queryParams
     debug('filename and outputFormat if requested', objectKey)
@@ -25,29 +22,26 @@ const index = async (queryParams) => {
     // if the edit param exists then do some image editing prior formatting
     if (queryParams.edit) {
       debug('image editing requested')
-      const { edit } = queryParams
       // imageTemp = base64
       const imageTemp = await edits.index(image, queryParams)
       image = Buffer.from(imageTemp, 'base64')
       debug('image editing done')
     }
 
-    // get mimeinfo of orig image 
+    // get mimeinfo of orig image
     const mimeInfo = fileType(image)
     debug('mimetype of original image', mimeInfo)
-    return result = format.index(image, mimeInfo, outputFormat)
-
+    const result = format.index(image, mimeInfo, outputFormat)
+    return result
   } catch (e) {
-
     if (e.code === 'NoSuchKey') {
       return (jsonResponse(404, { message: 'The requested key does not exist' }))
     }
     debug('error from file retrieval', e)
     return (jsonResponse(400, { message: 'An unknown error occur, please contact us' }))
   }
-
 }
 
 module.exports = {
-  index
+  index,
 }
