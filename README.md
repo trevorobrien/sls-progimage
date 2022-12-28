@@ -7,7 +7,7 @@ User -> API Gateway -> Lambda
 
 
 Caveats
-- payload limit of 6mb with Lambda functions
+- payload limit of 5mb with Lambda functions
 - need to look into warming up lambda to avoid slow start
 - having one lambda call another to do the transforms doesnt make much sense now but it might if you were batch uploading files and wanted to process them in parallel 
 
