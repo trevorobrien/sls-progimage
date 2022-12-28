@@ -18,7 +18,8 @@ Things to do
 - setup different environments
 - more test coverage required both unit & end to end
 - need to optmize packaging for serverless deployment
-- add auth / lock down api gateway
+- add auth / lock down api gateway 
+- add auto deployment
 
 
 ## Demo
